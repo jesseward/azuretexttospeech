@@ -18,7 +18,7 @@ The following will digitize the string `64 BASIC BYTES FREE. READY.`, using the 
 ```
 # See AzureCognitiveServicesAPI and AzureCognitiveServicesToken types for list of endpoints and regions.
 azureSpeech, _ := tts.New("YOUR-API-KEY", WestUS2, WestUS2Token)
-payload, _err_ := azureSpeech.Digitize(
+payload, _ := azureSpeech.Digitize(
     "64 BASIC BYTES FREE. READY.",
     EnUS, // Region type
     tts.Female, // Gender type
