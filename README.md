@@ -13,14 +13,18 @@ A Cognitive Services (kind=Speech Services) API key is required to access the UR
 
 Howto
 ---
-The following will digitize the string `64 BASIC BYTES FREE. READY.`, using the en-US locale, rending with a female voice. The output file format is a 16khz 32kbit single channel MP3 audio file.
+The following will synthesize the string `64 BASIC BYTES FREE. READY.`, using the en-US locale, rending with a female voice. The output file format is a 16khz 32kbit single channel MP3 audio file.
 
 ```
-# See AzureCognitiveServicesAPI and AzureCognitiveServicesToken types for list of endpoints and regions.
-azureSpeech, _ := tts.New("YOUR-API-KEY", WestUS2, WestUS2Token)
-payload, _ := azureSpeech.Digitize(
-    "64 BASIC BYTES FREE. READY.",
-    EnUS, // Region type
-    tts.Female, // Gender type
-    tts.Audio16khz32kbitrateMonoMp3) // AudioOutput type
+import tts "github.com/jesseward/azuretexttospeech"
+func main() {
+    # See TextToSpeechAPI and TokenRefreshAPI types for list of endpoints and regions.
+    azureSpeech, _ := tts.New("YOUR-API-KEY", WestUS2, WestUS2Token)
+    payload, _ := azureSpeech.Synthesize(
+        "64 BASIC BYTES FREE. READY.",
+        EnUS, // Region type
+        tts.Female, // Gender type
+        tts.Audio16khz32kbitrateMonoMp3) // AudioOutput type
+    // payload is your byte array containing audio data.
+}
 ```

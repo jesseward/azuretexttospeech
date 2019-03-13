@@ -18,7 +18,7 @@ func TestVoiceXML(t *testing.T) {
 
 // TestRefreshToken validates logic for fetching of the RefreshToken
 func TestRefreshToken(t *testing.T) {
-	az := &AzureSpeech{SubscriptionKey: "ThisIsMySubscriptionKeyAndToBeToken"}
+	az := &AzureCSTextToSpeech{SubscriptionKey: "ThisIsMySubscriptionKeyAndToBeToken"}
 
 	ts := httptest.NewServer(
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +28,7 @@ func TestRefreshToken(t *testing.T) {
 	)
 	defer ts.Close()
 
-	az.tokenURL = ts.URL
+	az.tokenAPI = ts.URL
 	err := az.RefreshToken()
 
 	assert.NoError(t, err)

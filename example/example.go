@@ -19,11 +19,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer close(az.TokenRefresher)
+	defer close(az.TokenRefreshDoneCh)
 
 	// Digitize a text string using the enUS locale, female voice and specify the
 	// audio format of a 16Khz, 32kbit mp3 file.
-	b, err := az.Digitize(
+	b, err := az.Synthesize(
 		"64 BASIC BYTES FREE. READY.",
 		tts.EnUS,
 		tts.Female,
