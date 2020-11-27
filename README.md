@@ -1,5 +1,7 @@
 # AzureTextToSpeech Client #
 
+![Execute Test Cases](https://github.com/jesseward/azuretexttospeech/workflows/Execute%20Test%20Cases/badge.svg)
+
 This package provides a client for Azure's Cognitive Services (speech services) Text To Speech API. Users of the client
 can specify the lanaguage (`Region` type), a string containing the desired text to speak as well as the gender (`Gender` type) in which the audiofile should be rendered. The library fetches the audio rendered in the format of your choice (see `AudioOutput` types for supported formats).
 
