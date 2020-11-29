@@ -22,14 +22,14 @@ The following will synthesize the string `64 BASIC BYTES FREE. READY.`, using th
 import tts "github.com/jesseward/azuretexttospeech"
 func main() {
     # See TextToSpeechAPI and TokenRefreshAPI types for list of endpoints and regions.
-    azureSpeech, _ := tts.New("YOUR-API-KEY", WestUS2, WestUS2Token)
+    azureSpeech, _ := tts.New("YOUR-API-KEY", tts.RegionEastUS)
     ctx := context.Background()
     payload, _ := az.SynthesizeWithContext(
         ctx,
         "64 BASIC BYTES FREE. READY.",
-        EnUS, // Region type
-        tts.Female, // Gender type
+        tts.LocaleEnUS,                  // Region type
+        tts.GenderFemale,                // Gender type
         tts.Audio16khz32kbitrateMonoMp3) // AudioOutput type
-    // payload is your byte array containing audio data.
+    // the response `payload` is your byte array containing audio data.
 }
 ```

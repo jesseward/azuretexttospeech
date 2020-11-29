@@ -10,3 +10,6 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+example/audio.mp3
+# make spits into bin/..
+bin/

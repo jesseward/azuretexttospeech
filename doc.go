@@ -1,3 +1,5 @@
+package azuretexttospeech
+
 /*
 package azuretexttospeech provides a client for Azure's Cognitive Services (speech services) Text To Speech API. Users of the client
 can specify the locale (lanaguage), text in which to speak/digitize as well as the gender in which the gender should be rendered.
@@ -11,41 +13,38 @@ An API key is required to access the Azure API.
 
 USAGE
 
-	import (
-		"io/ioutil"
-		"os"
-
-		tts "github.com/jesseward/azuretexttospeech"
-	)
-
 	func main() {
 		// create a key for "Cognitive Services" (kind=SpeechServices). Once the key is available
-		// in the azure portal, push it into an environment variable.
+		// in the Azure portal, push it into an environment variable (export AZUREKEY=SYS64738).
 		// By default the free tier keys are served out of West US2
-		az, err := tts.New(os.Getenv("AZUREKEY"), tts.WestUS2, tts.WestUS2Token)
+		var apiKey string
+		if apiKey = os.Getenv("AZUREKEY"); apiKey == "" {
+			exit(fmt.Errorf("Please set your AZUREKEY environment variable"))
+		}
+		az, err := tts.New(apiKey, tts.RegionEastUS)
 		if err != nil {
-			panic(err)
+			exit(fmt.Errorf("failed to create new client, received %v", err))
 		}
 		defer close(az.TokenRefreshDoneCh)
 
 		// Digitize a text string using the enUS locale, female voice and specify the
 		// audio format of a 16Khz, 32kbit mp3 file.
-		b, err := az.Synthesize(
+		ctx := context.Background()
+		b, err := az.SynthesizeWithContext(
+			ctx,
 			"64 BASIC BYTES FREE. READY.",
-			tts.EnUS,
-			tts.Female,
+			tts.LocaleEnUS,
+			tts.GenderFemale,
 			tts.Audio16khz32kbitrateMonoMp3)
 
 		if err != nil {
-			panic(err)
+			exit(fmt.Errorf("unable to synthesize, received: %v", err))
 		}
 
-		// write the results to disk.
+		// send results to disk.
 		err = ioutil.WriteFile("audio.mp3", b, 0644)
 		if err != nil {
-			panic(err)
+			exit(fmt.Errorf("unable to write file, received %v", err))
 		}
 	}
-
 */
-package azuretexttospeech
