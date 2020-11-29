@@ -65,6 +65,7 @@ func (az *AzureCSTextToSpeech) fetchVoiceList() ([]regionVoiceListResponse, erro
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
 
 	switch response.StatusCode {
 	case http.StatusOK:
