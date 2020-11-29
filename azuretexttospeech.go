@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// The following are V1 endpoints for Cognitiveservices endpoints
 const textToSpeechAPI = "https://%s.tts.speech.microsoft.com/cognitiveservices/v1"
 const tokenRefreshAPI = "https://%s.api.cognitive.microsoft.com/sts/v1.0/issueToken"
 
@@ -21,61 +22,7 @@ const tokenRefreshTimeout = time.Second * 15
 
 // TTSApiXMLPayload templates the payload required for API.
 // See: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-text-to-speech#sample-request
-const TTSApiXMLPayload = "<speak version='1.0' xml:lang='%s'><voice xml:lang='%s' xml:gender='%s' name='%s'>%s</voice></speak>"
-
-// Region references the locations of the availability of standard voices.
-// See https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/regions#standard-voices
-type Region int
-
-const (
-	// Azure regions and their endpoints that support the Text To Speech service.
-	RegionAustraliaEast Region = iota
-	RegionBrazilSouth
-	RegionCanadaCentral
-	RegionCentralUS
-	RegionEastAsia
-	RegionEastUS
-	RegionEastUS2
-	RegionFranceCentral
-	RegionIndiaCentral
-	RegionJapanEast
-	RegionJapanWest
-	RegionKoreaCentral
-	RegionNorthCentralUS
-	RegionNorthEurope
-	RegionSouthCentralUS
-	RegionSoutheastAsia
-	RegionUKSouth
-	RegionWestEurope
-	RegionWestUS
-	RegionWestUS2
-)
-
-func (t Region) String() string {
-	return [...]string{
-		"australiaeast",
-		"brazilsouth",
-		"canadacentral",
-		"centralus",
-		"eastasia",
-		"eastus",
-		"eastus2",
-		"francecentral",
-		"indiacentral",
-		"japaneast",
-		"japanwest",
-		"koreacentral",
-		"northcentralus",
-		"northeurope",
-		"southcentralus",
-		"southeastasia",
-		"uksouth",
-		"westeurope",
-		"westus",
-		"westus2",
-	}[t]
-
-}
+const ttsApiXMLPayload = "<speak version='1.0' xml:lang='%s'><voice xml:lang='%s' xml:gender='%s' name='%s'>%s</voice></speak>"
 
 // SynthesizeWithContext returns a bytestream of the rendered text-to-speech in the target audio format. `speechText` is the string of
 // text in which a user wishes to Synthesize, `region` is the language/locale, `gender` is the desired output voice
@@ -127,7 +74,7 @@ func (az *AzureCSTextToSpeech) SynthesizeWithContext(ctx context.Context, speech
 	return nil, fmt.Errorf("%d - received unexpected HTTP status code", response.StatusCode)
 }
 
-// Synthesize directs to SynthesizeWithContext
+// Synthesize directs to SynthesizeWithContext. A new context.Withtimeout is created with the timeout as defined by synthesizeActionTimeout
 func (az *AzureCSTextToSpeech) Synthesize(speechText string, locale Locale, gender Gender, audioOutput AudioOutput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), synthesizeActionTimeout)
 	defer cancel()
@@ -137,7 +84,7 @@ func (az *AzureCSTextToSpeech) Synthesize(speechText string, locale Locale, gend
 // voiceXML renders the XML payload for the TTS api.
 // For API reference see https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-text-to-speech#sample-request
 func voiceXML(speechText, description string, locale Locale, gender Gender) string {
-	return fmt.Sprintf(TTSApiXMLPayload, locale, locale, gender, description, speechText)
+	return fmt.Sprintf(ttsApiXMLPayload, locale, locale, gender, description, speechText)
 }
 
 // refreshToken fetches an updated token from the Azure cognitive speech/text services, or an error if unable to retrive.
@@ -197,7 +144,7 @@ type AzureCSTextToSpeech struct {
 	textToSpeechURL     string
 }
 
-// New returns an `AzureCSTextToSpeech` object and starts a background token refresh timer
+// New returns an AzureCSTextToSpeech object.
 func New(subscriptionKey string, region Region) (*AzureCSTextToSpeech, error) {
 	az := &AzureCSTextToSpeech{
 		SubscriptionKey: subscriptionKey,

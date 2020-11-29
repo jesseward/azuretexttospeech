@@ -1,8 +1,9 @@
 package azuretexttospeech
 
-// AudioOutput defines supported audio formats
-// Each incorporates a bitrate and encoding type. Azure Speech Service supports 24-KHz, 16-KHz, and 8-KHz audio outputs
-// See https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-apis#audio-outputs
+// AudioOutput types represent the supported audio encoding formats for the text-to-speech endpoint.
+// This type is required when requesting to azuretexttospeech.Synthesize text-to-speed request.
+// Each incorporates a bitrate and encoding type. The Speech service supports 24 kHz, 16 kHz, and 8 kHz audio outputs.
+// See: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-text-to-speech#audio-outputs
 type AudioOutput int
 
 const (
@@ -113,3 +114,57 @@ const (
 	LocaleZhHK               // zh-HK
 	LocaleZhTW               // zh-TW
 )
+
+// Region references the locations of the availability of standard voices.
+// See https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/regions#standard-voices
+type Region int
+
+const (
+	// Azure regions and their endpoints that support the Text To Speech service.
+	RegionAustraliaEast Region = iota
+	RegionBrazilSouth
+	RegionCanadaCentral
+	RegionCentralUS
+	RegionEastAsia
+	RegionEastUS
+	RegionEastUS2
+	RegionFranceCentral
+	RegionIndiaCentral
+	RegionJapanEast
+	RegionJapanWest
+	RegionKoreaCentral
+	RegionNorthCentralUS
+	RegionNorthEurope
+	RegionSouthCentralUS
+	RegionSoutheastAsia
+	RegionUKSouth
+	RegionWestEurope
+	RegionWestUS
+	RegionWestUS2
+)
+
+func (t Region) String() string {
+	return [...]string{
+		"australiaeast",
+		"brazilsouth",
+		"canadacentral",
+		"centralus",
+		"eastasia",
+		"eastus",
+		"eastus2",
+		"francecentral",
+		"indiacentral",
+		"japaneast",
+		"japanwest",
+		"koreacentral",
+		"northcentralus",
+		"northeurope",
+		"southcentralus",
+		"southeastasia",
+		"uksouth",
+		"westeurope",
+		"westus",
+		"westus2",
+	}[t]
+
+}
