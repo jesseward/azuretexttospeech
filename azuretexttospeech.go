@@ -77,10 +77,6 @@ func (t Region) String() string {
 
 }
 
-// serviceNameMappingString is a text placeholder that is present in the standard voices service name mapping. This is
-// used to build the `name` attribute in the ssml/xml payload (see `voiceXML()`).
-const serviceNameMappingString = "Microsoft Server Speech Text to Speech Voice"
-
 // SynthesizeWithContext returns a bytestream of the rendered text-to-speech in the target audio format. `speechText` is the string of
 // text in which a user wishes to Synthesize, `region` is the language/locale, `gender` is the desired output voice
 // and `audioOutput` captures the audio format.
